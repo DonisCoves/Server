@@ -12,6 +12,12 @@ import com.wedevol.xmpp.server.CcsClient;
 import com.wedevol.xmpp.server.MessageHelper;
 import com.wedevol.xmpp.util.Util;
 
+import static spark.Spark.get;
+import static spark.SparkBase.port;
+import static spark.SparkBase.staticFileLocation;
+import spark.ModelAndView;
+import spark.template.freemarker.FreeMarkerEngine;
+
 /**
  * Entry Point class for the XMPP Server in dev mode for debugging and testing
  * purposes
@@ -34,6 +40,17 @@ public class EntryPoint {
 		} catch (XMPPException e) {
 			e.printStackTrace();
 		}
+		
+		port(Integer.valueOf(System.getenv("PORT")));
+	    staticFileLocation("/public");
+
+	    
+	    get("/", (request, response) -> {
+	            Map<String, Object> attributes = new HashMap<>();
+	            attributes.put("message", "Hello World!");
+
+	            return new ModelAndView(attributes, "index.ftl");
+	        }, new FreeMarkerEngine());
 		
 		//** Obtenemos el bando del admin para reenviarlo a los users
 //		Map<String,String>notificacionPayload = new HashMap<>();
