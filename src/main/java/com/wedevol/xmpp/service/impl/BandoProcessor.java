@@ -35,7 +35,7 @@ public class BandoProcessor implements PayloadProcessor {
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_BODY, fecha);
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_action_bando");
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_COLOR, "#FF4081");//new long[] {100, 250, 100, 500}
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, "notificacion_bando");
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, System.getenv("notificacion_sonido"));
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_CLICK_ACTION, Util.BACKEND_ACTION_BANDO);
 		// Adjuntamos datos que nos interesan
 		dataPayload = new HashMap<>();

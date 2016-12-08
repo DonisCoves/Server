@@ -36,7 +36,7 @@ public class Util {
 	public static final String PAYLOAD_NOTIFICATION_TITLE = "title";
 	public static final String PAYLOAD_NOTIFICATION_BODY = "body";
 	public static final String PAYLOAD_NOTIFICATION_ICON = "icon";
-	public static final String PAYLOAD_NOTIFICATION_SOUND = System.getenv("notificacion_sonido");
+	public static final String PAYLOAD_NOTIFICATION_SOUND = "sound";
 	public static final String PAYLOAD_NOTIFICATION_COLOR = "color";
 	public static final String PAYLOAD_NOTIFICATION_CLICK_ACTION = "click_action";
 
