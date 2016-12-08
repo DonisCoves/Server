@@ -44,6 +44,7 @@ public class BandoProcessor implements PayloadProcessor {
 		message = new CcsOutMessage("/topics/Bando", messageId, dataPayload);
 		message.setNotificationPayload(notificacionPayload);
 		jsonRequest = MessageHelper.createJsonOutMessage(message);
+		System.out.println("LA variable de entorno vale==>"+System.getenv("notificacion_sonido"));
 		client.send(jsonRequest);
 	}
 
