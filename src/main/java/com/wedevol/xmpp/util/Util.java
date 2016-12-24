@@ -21,8 +21,11 @@ public class Util {
 	public static final String BACKEND_ACTION_ECHO = PACKAGE + ".ECHO";
 	public static final String BACKEND_ACTION_MESSAGE = PACKAGE + ".MESSAGE";
     public static final String BACKEND_ACTION_BANDO = "BANDO";
+    public static final String BACKEND_ACTION_TERRAT = "TERRAT";
+    public static final String BACKEND_ACTION_IMAGEN = "IMAGEN";
     public static final String BACKEND_ATTRIBUTE_MESSAGE = "message";
     public static final String BACKEND_ATTRIBUTE_TITULO = "titulo";
+    public static final String BACKEND_ATTRIBUTE_DIRECCION = "direccion";
 	public static final String BACKEND_ATTRIBUTE_FECHA = "fecha";
 	
 
@@ -31,7 +34,8 @@ public class Util {
 	public static final Object PAYLOAD_ATTRIBUTE_RECIPIENT = null;
 	public static final Object PAYLOAD_ATTRIBUTE_ACTION = "action";
 	public static final String PAYLOAD_ATTRIBUTE_UIDBANDO = "uidBando";
-	
+	public static final String PAYLOAD_ATTRIBUTE_UIDTERRAT = "uidTerrat";
+	public static final String PAYLOAD_ATTRIBUTE_UIDIMAGEN = "uidImagen";
 	// (xmpp server --> FCM)
 	public static final String PAYLOAD_NOTIFICATION_TITLE = "title";
 	public static final String PAYLOAD_NOTIFICATION_BODY = "body";

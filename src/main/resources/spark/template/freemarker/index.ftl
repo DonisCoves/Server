@@ -7,7 +7,11 @@
 <body >
 
   <#include "nav.ftl">
-
+  <div class="container">
+<div class="page-header">
+  <h1>TurisTorre <small><br>mes que un poble</small></h1>
+</div>
+</div>
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">

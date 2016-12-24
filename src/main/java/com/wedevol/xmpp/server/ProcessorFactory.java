@@ -26,6 +26,10 @@ public class ProcessorFactory {
 			return new BandoProcessor();
 		} else if (action.equals(Util.BACKEND_ACTION_MESSAGE)) {
 			return new MessageProcessor();
+		} else if (action.equals(Util.BACKEND_ACTION_TERRAT)) {
+			return new MessageProcessor();
+		} else if (action.equals(Util.BACKEND_ACTION_IMAGEN)) {
+			return new MessageProcessor();
 		}
 		throw new IllegalStateException("ProcessorFactory: Action " + action + " is unknown");
 	}
