@@ -55,35 +55,35 @@ public class EntryPoint {
 		List <DiaFiesta> diasFiesta = new ArrayList();
 
 
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setServiceAccount(new FileInputStream("C:\\Server\\project-1031372115432573568-firebase-adminsdk-vqcwh-64723994ce.json"))
-				.setDatabaseUrl("https://turistorre.firebaseio.com/")
-				.build();
-		FirebaseApp.initializeApp(options);
-
-
-		DatabaseReference mDataBaseRootRef = FirebaseDatabase.getInstance().getReference();
-		DatabaseReference mDataBaseFestRef = mDataBaseRootRef.child("DiasFiesta");
-		DatabaseReference dbRef = mDataBaseFestRef.child("Dia1");
-		try {
-			port(5000);
-			staticFileLocation("/public");
-
-			get("/", (request, response) -> {
-
-				return new ModelAndView(null, "index.ftl");
-			}, new FreeMarkerEngine());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		get("/pruebas", (request, response) -> {
-			Map<String, Object> attributes = new HashMap<>();
-			String [] dias = {"Someone & Co","Someone &amp; Co.","miercoles"};
-			String dia = "lunes";
-			attributes.put("dias", dias);
-			return new ModelAndView(attributes, "pruebas.ftl");
-		}, new FreeMarkerEngine());
+//		FirebaseOptions options = new FirebaseOptions.Builder()
+//				.setServiceAccount(new FileInputStream("C:\\Server\\project-1031372115432573568-firebase-adminsdk-vqcwh-64723994ce.json"))
+//				.setDatabaseUrl("https://turistorre.firebaseio.com/")
+//				.build();
+//		FirebaseApp.initializeApp(options);
+//
+//
+//		DatabaseReference mDataBaseRootRef = FirebaseDatabase.getInstance().getReference();
+//		DatabaseReference mDataBaseFestRef = mDataBaseRootRef.child("DiasFiesta");
+//		DatabaseReference dbRef = mDataBaseFestRef.child("Dia1");
+//		try {
+//			port(5000);
+//			staticFileLocation("/public");
+//
+//			get("/", (request, response) -> {
+//
+//				return new ModelAndView(null, "index.ftl");
+//			}, new FreeMarkerEngine());
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//
+//		get("/pruebas", (request, response) -> {
+//			Map<String, Object> attributes = new HashMap<>();
+//			String [] dias = {"Someone & Co","Someone &amp; Co.","miercoles"};
+//			String dia = "lunes";
+//			attributes.put("dias", dias);
+//			return new ModelAndView(attributes, "pruebas.ftl");
+//		}, new FreeMarkerEngine());
 
 		//        dbRef.setValue("I'm writing data");
 		//        try {
@@ -131,29 +131,29 @@ public class EntryPoint {
 
 
 
-		//		CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
-		//
-		//		try {
-		//			ccsClient.connect();
-		//		} catch (XMPPException e) {
-		//			e.printStackTrace();
-		//		}
+				CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
+		
+				try {
+					ccsClient.connect();
+				} catch (XMPPException e) {
+					e.printStackTrace();
+				}
 
-		//		port(Integer.valueOf(System.getenv("PORT")));
-		//	    staticFileLocation(System.getenv("PORT"));
-		//	    port(5000);
-		//	    staticFileLocation("/public");
+				port(Integer.valueOf(System.getenv("PORT")));
+			    staticFileLocation(System.getenv("PORT"));
+//			    port(5000);
+//			    staticFileLocation("/public");
 		//	    
 		//	    System.out.println("el puerto es ************* "+System.getenv("PORT"));
-		//	    get("/hello", (req, res) -> "Hello World");
+			    get("/hello", (req, res) -> "Hello World");
 		//	    
-		//	    get("/", (request, response) -> {
-		//	            Map<String, Object> attributes = new HashMap<>();
-		//	            attributes.put("message", "Hello World!");
-		//
-		//	            return new ModelAndView(attributes, "index.ftl");
-		//	        }, new FreeMarkerEngine());
-		//
+			    get("/", (request, response) -> {
+			            Map<String, Object> attributes = new HashMap<>();
+			            attributes.put("message", "Hello World!");
+		
+			            return new ModelAndView(attributes, "index.ftl");
+			        }, new FreeMarkerEngine());
+		
 		//	    get("/fiestas", (request, response) -> {
 		//            Map<String, Object> attributes = new HashMap<>();
 		//            attributes.put("dias", 9);
@@ -231,9 +231,9 @@ public class EntryPoint {
 		//
 		//	
 		//
-		//		while (true) {
-		//			// TODO: Improve this because the app closes itself after the
-		//			// execution of the connect method
-		//		}
+				while (true) {
+					// TODO: Improve this because the app closes itself after the
+					// execution of the connect method
+				}
 	}
 }
