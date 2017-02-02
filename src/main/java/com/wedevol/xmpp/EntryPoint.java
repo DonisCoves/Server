@@ -58,11 +58,11 @@ public class EntryPoint {
 		final String Cliente2 = "feV7KhODqTs:APA91bEe97htXeNNNg_A0JvxEfEW9qmGPvxNYm0iTo5C9pPs9n5vOkGaUurp8ezHR19SG1aTtpKQS6uXcK7Mfh57hipjP5GHgSOMpR_jxn7p29jhcG_TazwjWBDsEN5okGAlsu43Qfmf";
 		final String Servidor = "dHVWzOv7mt4:APA91bEz96sGTO93he75PXiS19lPszsVTWpXo4eAWHwlA_uKV0rolcDwXk3KWdUq5rm9UyDeQ8khqqc-3vgnfJ9MqFND1cBUS_Jg0zOfKgOBtv4oBPrCFQWL3oHM7BHJHekBhaA1Gob4";
 
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setServiceAccount(new FileInputStream("C:/Server/project-1031372115432573568-firebase-adminsdk-vqcwh-64723994ce.json"))
-				.setDatabaseUrl("https://turistorre.firebaseio.com/")
-				.build();
-		FirebaseApp.initializeApp(options);
+//		FirebaseOptions options = new FirebaseOptions.Builder()
+//				.setServiceAccount(new FileInputStream("C:/Server/project-1031372115432573568-firebase-adminsdk-vqcwh-64723994ce.json"))
+//				.setDatabaseUrl("https://turistorre.firebaseio.com/")
+//				.build();
+//		FirebaseApp.initializeApp(options);
 		tiempoInicialWeb = System.currentTimeMillis();
 
 		//		crearFiestasFireEjemplo();
