@@ -4,14 +4,4 @@
   <#include "header.ftl">
 </head>
 
-<body >
-
-  
-
-<#list dias as x>
-${x}
-</#list>
-
-
-</body>
-</html>
+<body>

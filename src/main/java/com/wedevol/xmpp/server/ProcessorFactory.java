@@ -5,6 +5,7 @@ import com.wedevol.xmpp.service.impl.BandoProcessor;
 import com.wedevol.xmpp.service.impl.EchoProcessor;
 import com.wedevol.xmpp.service.impl.MessageProcessor;
 import com.wedevol.xmpp.service.impl.RegisterProcessor;
+import com.wedevol.xmpp.service.impl.TerratProcessor;
 import com.wedevol.xmpp.util.Util;
 
 /**
@@ -27,7 +28,7 @@ public class ProcessorFactory {
 		} else if (action.equals(Util.BACKEND_ACTION_MESSAGE)) {
 			return new MessageProcessor();
 		} else if (action.equals(Util.BACKEND_ACTION_TERRAT)) {
-			return new MessageProcessor();
+			return new TerratProcessor();
 		} else if (action.equals(Util.BACKEND_ACTION_IMAGEN)) {
 			return new MessageProcessor();
 		}

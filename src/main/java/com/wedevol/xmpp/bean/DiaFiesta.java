@@ -1,43 +1,40 @@
 package com.wedevol.xmpp.bean;
 
+import java.util.Map;
+
 public  class DiaFiesta {
-	public String titulo;
-	public String descripcion;
-	public String fecha;
-	public String lugar;
-	
-	public DiaFiesta(String titulo, String descripcion, String fecha, String lugar) {
-		super();
+	private String uidDiaFiesta;
+	private String titulo;
+	private Map <String, Evento> eventos;
+	public DiaFiesta(String uidDiaFiesta, String titulo, Map<String, Evento> eventos) {
+		this.uidDiaFiesta = uidDiaFiesta;
 		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.fecha = fecha;
-		this.lugar = lugar;
+		this.eventos = eventos;
 	}
+	
+	public DiaFiesta() {
+	}
+	
+	
 	public String getTitulo() {
 		return titulo;
 	}
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	public String getDescripcion() {
-		return descripcion;
+
+	public String getUidDiaFiesta() {
+		return uidDiaFiesta;
 	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setUidDiaFiesta(String uidDiaFiesta) {
+		this.uidDiaFiesta = uidDiaFiesta;
 	}
-	public String getFecha() {
-		return fecha;
+	public Map<String, Evento> getEventos() {
+		return eventos;
 	}
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
+	public void setEventos(Map<String, Evento> eventos) {
+		this.eventos = eventos;
 	}
-	public String getLugar() {
-		return lugar;
-	}
-	public void setLugar(String lugar) {
-		this.lugar = lugar;
-	}
-	
-	
 
 }

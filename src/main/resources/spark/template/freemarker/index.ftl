@@ -1,23 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <#include "header.ftl">
-</head>
-
-<body >
-
-  <#include "nav.ftl">
-  <div class="container">
-<div class="page-header">
-  <h1>TurisTorre <small><br>mes que un poble</small></h1>
-</div>
-</div>
+<#include "cabecera.ftl">
+ 
 <div class="jumbotron text-center">
   <div class="container">
     <a href="/" class="lang-logo">
       <img src="/logo.jpg">
     </a>
     <h1>ServerTorre </h1>
+    
+    <div class="row">
+  		<div class="col-md-4">
+  			Fiestas
+   			<a href="/fiestas_main" id="apulsado">
+  				<img class="img-responsive" src="/fiestas.jpg">
+  			</a>
+  		</div>
+   
+   		<div class="col-md-4">
+   			Administrar Notificaciones
+   				<img class="img-responsive" src="/fiestas.jpg">
+   		</div>
+   
+   		<div class="col-md-4">
+   			Visualizar contenido
+   			<img class="img-responsive" src="/fiestas.jpg">
+   		</div>
+</div>
   </div>
 </div>
 <div class="container">
@@ -28,6 +35,4 @@
    
 </div>
 
-
-</body>
-</html>
+ <#include "clausura.ftl">

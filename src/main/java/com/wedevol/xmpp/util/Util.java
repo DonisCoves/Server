@@ -2,6 +2,9 @@ package com.wedevol.xmpp.util;
 
 import java.util.UUID;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Util class for constants and generic methods
  */
@@ -28,8 +31,6 @@ public class Util {
     public static final String BACKEND_ATTRIBUTE_DIRECCION = "direccion";
 	public static final String BACKEND_ATTRIBUTE_FECHA = "fecha";
 	
-
-
 	// For the app common payload message attributes (android - xmpp server)
 	public static final Object PAYLOAD_ATTRIBUTE_RECIPIENT = null;
 	public static final Object PAYLOAD_ATTRIBUTE_ACTION = "action";
@@ -43,7 +44,12 @@ public class Util {
 	public static final String PAYLOAD_NOTIFICATION_SOUND = "sound";
 	public static final String PAYLOAD_NOTIFICATION_COLOR = "color";
 	public static final String PAYLOAD_NOTIFICATION_CLICK_ACTION = "click_action";
-
+	// FireBase 
+	public static final DatabaseReference mDataBaseRootRef =FirebaseDatabase.getInstance().getReference();
+	public static final DatabaseReference mDataBaseFiestasRef = mDataBaseRootRef.child("Fiestas");
+	public static final DatabaseReference mDataBaseDiasFiestaRef = mDataBaseRootRef.child("DiasFiestas");
+	
+	
 
 	/**
 	 * Returns a random message id to uniquely identify a message
@@ -52,5 +58,12 @@ public class Util {
 		// TODO: replace for your own random message ID that the DB generates
 		return "m-" + UUID.randomUUID().toString();
 	}
+	
+	public static String getUidUnico(String cadena) {
+		// TODO: replace for your own random message ID that the DB generates
+		return cadena + UUID.randomUUID().toString();
+	}
+	
+	
 
 }
