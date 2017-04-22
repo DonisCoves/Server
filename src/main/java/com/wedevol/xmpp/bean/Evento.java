@@ -7,15 +7,13 @@ public class Evento {
 	public String titulo;
 	public String descripcion;
 	public String hora_inicial;
-	public String hora_final;
 	Map<String, Imagen> imagenes;
-	public Evento(String uidEvento, String titulo, String descripcion, String hora_inicial, String hora_final,
+	public Evento(String uidEvento, String titulo, String descripcion, String hora_inicial, 
 			Map<String, Imagen> imagenes) {
 		this.uidEvento = uidEvento;
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.hora_inicial = hora_inicial;
-		this.hora_final = hora_final;
 		this.imagenes = imagenes;
 	}
 	
@@ -45,12 +43,6 @@ public class Evento {
 	}
 	public void setHora_inicial(String hora_inicial) {
 		this.hora_inicial = hora_inicial;
-	}
-	public String getHora_final() {
-		return hora_final;
-	}
-	public void setHora_final(String hora_final) {
-		this.hora_final = hora_final;
 	}
 	public Map<String, Imagen> getImagenes() {
 		return imagenes;

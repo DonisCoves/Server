@@ -1,5 +1,9 @@
 package com.wedevol.xmpp.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.firebase.database.DatabaseReference;
@@ -26,10 +30,16 @@ public class Util {
     public static final String BACKEND_ACTION_BANDO = "BANDO";
     public static final String BACKEND_ACTION_TERRAT = "TERRAT";
     public static final String BACKEND_ACTION_IMAGEN = "IMAGEN";
+    public static final String BACKEND_ACTION_CAMBIO_GRUPO = "CAMBIO_GRUPO";
     public static final String BACKEND_ATTRIBUTE_MESSAGE = "message";
     public static final String BACKEND_ATTRIBUTE_TITULO = "titulo";
     public static final String BACKEND_ATTRIBUTE_DIRECCION = "direccion";
 	public static final String BACKEND_ATTRIBUTE_FECHA = "fecha";
+	public static final String BACKEND_ATTRIBUTE_GRUPONUEVO = "grupoNuevo";
+	public static final String BACKEND_ATTRIBUTE_GRUPOVIEJO = "grupoViejo";
+	public static final String BACKEND_ATTRIBUTE_UIDUSER = "uidUser";
+	public static final String BACKEND_ATTRIBUTE_NOMBRE = "nombre";
+	public static final String BACKEND_ATTRIBUTE_AVATAR = "avatar";
 	
 	// For the app common payload message attributes (android - xmpp server)
 	public static final Object PAYLOAD_ATTRIBUTE_RECIPIENT = null;
@@ -37,6 +47,11 @@ public class Util {
 	public static final String PAYLOAD_ATTRIBUTE_UIDBANDO = "uidBando";
 	public static final String PAYLOAD_ATTRIBUTE_UIDTERRAT = "uidTerrat";
 	public static final String PAYLOAD_ATTRIBUTE_UIDIMAGEN = "uidImagen";
+	public static final String PAYLOAD_ATTRIBUTE_UIDUSER = "uidUser";
+	public static final String PAYLOAD_ATTRIBUTE_NOMBRE = "nombre";
+	public static final String PAYLOAD_ATTRIBUTE_GRUPONUEVO = "grupoNuevo";
+	public static final String PAYLOAD_ATTRIBUTE_GRUPOVIEJO = "grupoViejo";
+	public static final String PAYLOAD_ATTRIBUTE_AVATAR = "avatar";
 	// (xmpp server --> FCM)
 	public static final String PAYLOAD_NOTIFICATION_TITLE = "title";
 	public static final String PAYLOAD_NOTIFICATION_BODY = "body";
@@ -48,6 +63,7 @@ public class Util {
 	public static final DatabaseReference mDataBaseRootRef =FirebaseDatabase.getInstance().getReference();
 	public static final DatabaseReference mDataBaseFiestasRef = mDataBaseRootRef.child("Fiestas");
 	public static final DatabaseReference mDataBaseDiasFiestaRef = mDataBaseRootRef.child("DiasFiestas");
+    public static final DatabaseReference mDataBaseKeysRef = mDataBaseRootRef.child("keys");
 	
 	
 
@@ -63,6 +79,21 @@ public class Util {
 		// TODO: replace for your own random message ID that the DB generates
 		return cadena + UUID.randomUUID().toString();
 	}
+	
+
+	    public static Date pasarHoraADate(String hora) {
+	        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("k:mm");
+	        Date fecha = null;
+	        try {
+	            fecha = formatoDelTexto.parse(hora);
+	        } catch (ParseException ex) {
+
+	            ex.printStackTrace();
+	        }
+	        return fecha;
+	    }
+
+
 	
 	
 

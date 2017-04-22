@@ -18,7 +18,6 @@ public class DiaFiestaMeta {
 		this.tituloDiaFiesta = tituloDiaFiesta;
 	}
 
-	
 	public DiaFiestaMeta() {
 	}
 

@@ -2,6 +2,7 @@ package com.wedevol.xmpp.server;
 
 import com.wedevol.xmpp.service.PayloadProcessor;
 import com.wedevol.xmpp.service.impl.BandoProcessor;
+import com.wedevol.xmpp.service.impl.CambioGrupoProcessor;
 import com.wedevol.xmpp.service.impl.EchoProcessor;
 import com.wedevol.xmpp.service.impl.MessageProcessor;
 import com.wedevol.xmpp.service.impl.RegisterProcessor;
@@ -31,7 +32,8 @@ public class ProcessorFactory {
 			return new TerratProcessor();
 		} else if (action.equals(Util.BACKEND_ACTION_IMAGEN)) {
 			return new MessageProcessor();
-		}
+		} else if (action.equals(Util.BACKEND_ACTION_CAMBIO_GRUPO)) 
+			return new CambioGrupoProcessor();
 		throw new IllegalStateException("ProcessorFactory: Action " + action + " is unknown");
 	}
 }

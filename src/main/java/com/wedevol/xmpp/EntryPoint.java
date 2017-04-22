@@ -16,21 +16,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 
+import com.google.api.client.googleapis.util.Utils;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.wedevol.xmpp.bean.DiaFiesta;
 import com.wedevol.xmpp.bean.DiaFiestaMeta;
 import com.wedevol.xmpp.bean.Evento;
 import com.wedevol.xmpp.bean.Fiestas;
 import com.wedevol.xmpp.bean.Imagen;
+import com.wedevol.xmpp.server.CcsClient;
 import com.wedevol.xmpp.util.Util;
 
 import spark.ModelAndView;
@@ -45,12 +51,12 @@ public class EntryPoint {
 	static Map<String, DiaFiesta> diasFiestas = new HashMap<String, DiaFiesta>();
 	static Map<String, DiaFiesta> diasFiestasSel = new HashMap<String, DiaFiesta>(); //De la fiesta en particular
 	static Map<String, DiaFiestaMeta> diasFiestasMeta = new HashMap<String, DiaFiestaMeta>();
+	static DatabaseReference keysDiasFiestaFire;
 
 	static boolean datosObtenidos;
 	static long tiempoInicialWeb,tiempoDatosRecogidos,tiempoEspera;
 	public static void main(String[] args) throws SmackException, IOException, InterruptedException {
-		final String fcmProjectSenderId = "351834780446";// projectId o
-		// SENDER_ID
+		final String fcmProjectSenderId = "351834780446";// projectId o  SENDER_ID
 		final String Nexus5 = "f1LXNdF2vaA:APA91bG4bysyvfX806pJ3xvRfAXpNggXdIn67b0z7jii0kpf5piAAIQTpP6FqTel7xqyz8u434bmMxEgeKVhr0dkfsyWuScjeuuuuZgBbV92Iu-53mkQEm8HPvMtWYFeEJ5THprEZtOO";
 		final String fcmServerKey = "AAAAUer8sx4:APA91bGGvMhgdZ2pG7ErlnTp1JEFJ5rqDJ3egtK45xknfu5KEdUItKePQPiGQzhpGCxULgN025jydVuoo6X9IO91YWzILvlMy-J_t0x0X42I4uU6h5N7_5M4R2phAi6mZNZLmg5P7ZWIZ8ptW_eL5rUpsAysLuTAUw"; // apiKey
 		final String toRegId = "dHVWzOv7mt4:APA91bEz96sGTO93he75PXiS19lPszsVTWpXo4eAWHwlA_uKV0rolcDwXk3KWdUq5rm9UyDeQ8khqqc-3vgnfJ9MqFND1cBUS_Jg0zOfKgOBtv4oBPrCFQWL3oHM7BHJHekBhaA1Gob4";
@@ -65,17 +71,42 @@ public class EntryPoint {
 				.build();
 		FirebaseApp.initializeApp(options);
 		tiempoInicialWeb = System.currentTimeMillis();
+		
+		CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
+
+		try {
+			ccsClient.connect();
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
+		
 
 //				crearFiestasFireEjemplo();
-		recogidaDatos();
+		//recogidaDatos();
 
-		port(Integer.valueOf(System.getenv("PORT")));
-	    //port(5000);
+		//port(Integer.valueOf(System.getenv("PORT")));
+	    port(5000);
 		staticFileLocation("/public");
-
-		get("/", (request, response) -> {
+System.out.println("ACTUALIZADOs");
+		/*get("/", (request, response) -> {
 			return new ModelAndView(null, "index.ftl");
 		}, new FreeMarkerEngine());
+		
+		post("/form-login", (request, response) -> {
+			String email = request.queryParams("email");
+			String password = request.queryParams("password");
+			if (email.equals("turistorre17@gmail.com") && password.equals("adminadmin")){
+				return new ModelAndView(null, "opciones.ftl");
+			}
+			else {
+				return new ModelAndView(null, "index.ftl");	
+			}
+		}, new FreeMarkerEngine());
+		
+		
+//		get("/", (request, response) -> {
+//			return new ModelAndView(null, "index.ftl");
+//		}, new FreeMarkerEngine());
 
 		get("/fiestas_main", (request, response) -> {
 			Map<String, Object> attributes = new HashMap<>();
@@ -105,7 +136,7 @@ public class EntryPoint {
 				titulosDiasFiesta = getTitulosDiasFiesta(uidFiestas);
 				attributes.put("dia_fiesta", diaFiesta);
 			}
-			else {  //Creamos
+			else {  //Creamos   AQUI!!!!!!
 				titulo = request.queryParams("titulo");
 				anyo = titulo.substring(titulo.length()-4);
 				descripcion = request.queryParams("descripcion");
@@ -159,7 +190,6 @@ public class EntryPoint {
 			String [] titulos = request.queryMap("titulo").values();
 			String [] descripciones = request.queryMap("descripcion").values();
 			String [] hora_iniciales = request.queryMap("hora_inicial").values();
-			String [] hora_finales = request.queryMap("hora_final").values();
 			String [] eliminaciones = null ;
 			if (request.queryParams("eliminar")!=null)
 				eliminaciones = request.queryMap("eliminar").values();
@@ -167,16 +197,37 @@ public class EntryPoint {
 				if (titulos[i]!="") {
 					if (eliminaciones!=null) {
 						if (!eliminarEventos(eliminaciones, i)){
-							evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+(i+1),titulos[i],descripciones[i],hora_iniciales[i],hora_finales[i],null);
+							evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+(i+1),titulos[i],descripciones[i],hora_iniciales[i],null);
 							eventos.put(evento.getUidEvento(),evento);
 						}
 					}
 					else {
-						evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+(i+1),titulos[i],descripciones[i],hora_iniciales[i],hora_finales[i],null);
+						evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+(i+1),titulos[i],descripciones[i],hora_iniciales[i],null);
 						eventos.put(evento.getUidEvento(),evento);
 					}
 				}
 			}
+			
+			///OJOOORRLL///
+			Iterator<String> itUidEventos = eventos.keySet().iterator();
+			Map<Date,String> eventosDate = new TreeMap<>();
+			while (itUidEventos.hasNext()){
+				String uidEvento = itUidEventos.next();
+				Evento ev = eventos.get(uidEvento);
+				String hora = ev.getHora_inicial();
+				eventosDate.put(Util.pasarHoraADate(hora),uidEvento);
+			}
+			
+			Iterator<Date> itUidEventos2 = eventosDate.keySet().iterator();
+			int i=0;
+			Util.mDataBaseKeysRef.child(uidDiaFiesta).setValue(null);
+			while (itUidEventos2.hasNext()){
+				Date key = itUidEventos2.next();
+				String uidEvento = eventosDate.get(key);
+				Util.mDataBaseKeysRef.child(uidDiaFiesta).child(uidEvento).setValue(i++);
+			}
+			
+
 
 			//Añadimos el uid (que es el dia seleccionado) dela metainformacion del dia para que este todo linkado
 			diaFiesta=new DiaFiesta(uidDiaFiesta,tituloDiaFiesta,eventos);
@@ -196,7 +247,7 @@ public class EntryPoint {
 		}, new FreeMarkerEngine());
 
 
-
+*/
 		// Esto se pone porque despues de conectar se cierra la conexion, de esta
 		// manera no se cierra
 		while(true){}
@@ -308,16 +359,19 @@ public class EntryPoint {
 	}
 
 	//Crea una fiesta con toda su metainformacion (incluido los dias fiestas, sus ids pasados como parametro de entrada)
+	//Tambien creamos el orden en Firebase para despues mostrarlos ordenados por fecha
 	private static void setFiesta(String uidFiestas, String titulo, String descripcion, List<String> titulosDiasFiesta) {
 		Map<String, DiaFiestaMeta> fiestasMeta = new HashMap<String, DiaFiestaMeta>();
 		DiaFiestaMeta diaFiestaMeta ;
 		Fiestas fiestas ;
 		String uidDiaFiesta;
+		keysDiasFiestaFire = Util.mDataBaseKeysRef.child(uidFiestas);
 
-		for (String tituloDiasFiesta:titulosDiasFiesta){
-			uidDiaFiesta = setUidDiaFiesta(tituloDiasFiesta,uidFiestas);
-			diaFiestaMeta = new DiaFiestaMeta(uidDiaFiesta,tituloDiasFiesta);
+		for (int i=0;i<titulosDiasFiesta.size();i++){
+			uidDiaFiesta = setUidDiaFiesta(titulosDiasFiesta.get(i),uidFiestas);
+			diaFiestaMeta = new DiaFiestaMeta(uidDiaFiesta,titulosDiasFiesta.get(i));
 			fiestasMeta.put(uidDiaFiesta, diaFiestaMeta);
+			keysDiasFiestaFire.child(uidDiaFiesta).setValue(i);
 		}
 		fiestas = new Fiestas(uidFiestas,titulo,descripcion,fiestasMeta);
 		//Si existe la sobreescribimos con los nuevos valores
@@ -467,10 +521,10 @@ public class EntryPoint {
 		imagenes1.put(img2.getUidImagen(), img2);
 		imagenes2.put(img3.getUidImagen(), img3);
 		imagenes2.put(img4.getUidImagen(), img4);
-		Evento evento1 = new Evento("uidEvento1","Evento1","Es el evento1","09:00","11:00",imagenes1);
-		Evento evento2 = new Evento("uidEvento2","Evento2","Es el evento2","09:00","11:00",imagenes2);
-		Evento evento3 = new Evento("uidEvento3","Evento3","Es el evento3","09:00","11:00",imagenes1);
-		Evento evento4 = new Evento("uidEvento4","Evento4","Es el evento4","09:00","11:00",imagenes2);
+		Evento evento1 = new Evento("uidEvento1","Evento1","Es el evento1","09:00",imagenes1);
+		Evento evento2 = new Evento("uidEvento2","Evento2","Es el evento2","09:00",imagenes2);
+		Evento evento3 = new Evento("uidEvento3","Evento3","Es el evento3","09:00",imagenes1);
+		Evento evento4 = new Evento("uidEvento4","Evento4","Es el evento4","09:00",imagenes2);
 
 		Map<String, Evento> eventos1 = new HashMap<String, Evento>();
 		Map<String, Evento> eventos2 = new HashMap<String, Evento>();
