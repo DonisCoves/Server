@@ -84,8 +84,8 @@ public class EntryPoint {
 //				crearFiestasFireEjemplo();
 		//recogidaDatos();
 
-		port(Integer.valueOf(System.getenv("PORT")));
-	    //port(5000);
+		//port(Integer.valueOf(System.getenv("PORT")));
+	    port(5000);
 		staticFileLocation("/public");
 System.out.println("ACTUALIZADOs");
 		/*get("/", (request, response) -> {
