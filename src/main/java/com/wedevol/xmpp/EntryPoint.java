@@ -87,7 +87,7 @@ public class EntryPoint {
 		//port(Integer.valueOf(System.getenv("PORT")));
 	    port(5000);
 		staticFileLocation("/public");
-System.out.println("ACTUALIZADOs");
+System.out.println("ACTUALIZADOs2323");
 		/*get("/", (request, response) -> {
 			return new ModelAndView(null, "index.ftl");
 		}, new FreeMarkerEngine());
