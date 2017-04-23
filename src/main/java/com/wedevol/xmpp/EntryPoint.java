@@ -84,11 +84,11 @@ public class EntryPoint {
 //				crearFiestasFireEjemplo();
 		//recogidaDatos();
 
-		//port(Integer.valueOf(System.getenv("PORT")));
-	    port(5000);
+		port(Integer.valueOf(System.getenv("PORT")));
+	    //port(5000);
 		staticFileLocation("/public");
 System.out.println("ACTUALIZADOs2323");
-		/*get("/", (request, response) -> {
+		get("/", (request, response) -> {
 			return new ModelAndView(null, "index.ftl");
 		}, new FreeMarkerEngine());
 		
@@ -247,7 +247,7 @@ System.out.println("ACTUALIZADOs2323");
 		}, new FreeMarkerEngine());
 
 
-*/
+
 		// Esto se pone porque despues de conectar se cierra la conexion, de esta
 		// manera no se cierra
 		while(true){}
