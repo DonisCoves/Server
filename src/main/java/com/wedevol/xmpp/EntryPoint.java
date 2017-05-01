@@ -82,12 +82,12 @@ public class EntryPoint {
 		
 
 //				crearFiestasFireEjemplo();
-		//recogidaDatos();
+		recogidaDatos();
 
-		port(Integer.valueOf(System.getenv("PORT")));
-	    //port(5000);
+		//port(Integer.valueOf(System.getenv("PORT")));
+		port(5000);
 		staticFileLocation("/public");
-System.out.println("ACTUALIZADOs2323");
+		System.out.println("ACTUALIZADOs2323");
 		get("/", (request, response) -> {
 			return new ModelAndView(null, "index.ftl");
 		}, new FreeMarkerEngine());
@@ -429,10 +429,12 @@ System.out.println("ACTUALIZADOs2323");
 	}
 
 	private static void recogidaDatos() {
+		System.out.println("INICIO REcogida datos");
 		//Festes
 		Util.mDataBaseFiestasRef.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
+				System.out.println("Cambios en Fiestas OK!");
 				for (DataSnapshot fiestasList: dataSnapshot.getChildren()) {
 					Fiestas fiestas = fiestasList.getValue(Fiestas.class);
 					fiestasMap.put(fiestasList.getKey(), fiestas);
@@ -459,7 +461,7 @@ System.out.println("ACTUALIZADOs2323");
 			@Override
 			public void onCancelled(DatabaseError arg0) {}
 		});
-
+		System.out.println("FIN REcogida datos");
 		//DiesDeFestes
 	}
 
