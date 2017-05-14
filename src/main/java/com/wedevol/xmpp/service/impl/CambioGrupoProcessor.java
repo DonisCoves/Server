@@ -32,11 +32,11 @@ public class CambioGrupoProcessor implements PayloadProcessor {
 		nombre = datosAdmin.get(Util.BACKEND_ATTRIBUTE_NOMBRE);
 		avatar = datosAdmin.get(Util.BACKEND_ATTRIBUTE_AVATAR);
 		notificacionPayload = new HashMap<>();
-		// Creamos la notificacion a enviar
+		// Creamos la notificacion a enviar (Si estamos fuera de la app)
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_TITLE, "Solicitud de Permisos de "+nombre);
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_BODY, "Permiso solicitado: "+grupoNuevo);
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_action_bando");
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_COLOR, "#FF4081");//new long[] {100, 250, 100, 500}
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_stat_touch_app");
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_COLOR, "#FF4081");
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, System.getenv("notificacion_sonido"));
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_CLICK_ACTION, Util.BACKEND_ACTION_CAMBIO_GRUPO);
 		// Adjuntamos datos que nos interesan

@@ -33,6 +33,7 @@ public class Util {
     public static final String BACKEND_ACTION_CAMBIO_GRUPO = "CAMBIO_GRUPO";
     public static final String BACKEND_ATTRIBUTE_MESSAGE = "message";
     public static final String BACKEND_ATTRIBUTE_TITULO = "titulo";
+    public static final String BACKEND_ATTRIBUTE_CABECERA = "cabecera";
     public static final String BACKEND_ATTRIBUTE_DIRECCION = "direccion";
 	public static final String BACKEND_ATTRIBUTE_FECHA = "fecha";
 	public static final String BACKEND_ATTRIBUTE_GRUPONUEVO = "grupoNuevo";

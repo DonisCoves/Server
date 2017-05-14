@@ -19,24 +19,23 @@ public class BandoProcessor implements PayloadProcessor {
 	CcsOutMessage message ;
 	String jsonRequest ;
 	//Datos del bando
-	String titulo,uidBando, fecha;
+	String titulo,uidBando, fecha, cabecera;
 
 	@Override
 	public void handleMessage(CcsInMessage inMessage) {
 		client = CcsClient.getInstance();
 		//** Obtenemos el bando del admin para reenviarlo a los users
 		Map<String,String> datosAdmin = inMessage.getDataPayload();
-		titulo = datosAdmin.get(Util.BACKEND_ATTRIBUTE_TITULO);		
+		titulo = datosAdmin.get(Util.BACKEND_ATTRIBUTE_TITULO);
+		cabecera = datosAdmin.get(Util.BACKEND_ATTRIBUTE_CABECERA);
 		fecha = datosAdmin.get(Util.BACKEND_ATTRIBUTE_FECHA);
 		uidBando = datosAdmin.get(Util.PAYLOAD_ATTRIBUTE_UIDBANDO);
 		notificacionPayload = new HashMap<>();
 		// Creamos la notificacion a enviar
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_TITLE, titulo);
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_BODY, fecha);
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_TITLE, cabecera);
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_BODY, titulo + "  " + fecha);
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_stat_touch_app");
-		//notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_COLOR, "#FF4081");//new long[] {100, 250, 100, 500}
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, System.getenv("notificacion_sonido"));
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, "notificacion_sonido");
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_CLICK_ACTION, Util.BACKEND_ACTION_BANDO);
 		// Adjuntamos datos que nos interesan
 		dataPayload = new HashMap<>();
