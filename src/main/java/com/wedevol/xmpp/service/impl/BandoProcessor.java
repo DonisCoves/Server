@@ -35,6 +35,7 @@ public class BandoProcessor implements PayloadProcessor {
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_TITLE, cabecera);
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_BODY, titulo + "  " + fecha);
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_stat_touch_app");
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_COLOR, "#FF4081");
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, System.getenv("notificacion_sonido"));
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_CLICK_ACTION, Util.BACKEND_ACTION_BANDO);
 		// Adjuntamos datos que nos interesan
