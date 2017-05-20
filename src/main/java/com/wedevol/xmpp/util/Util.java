@@ -47,6 +47,8 @@ public class Util {
 	public static final Object PAYLOAD_ATTRIBUTE_RECIPIENT = null;
 	public static final Object PAYLOAD_ATTRIBUTE_ACTION = "action";
 	public static final String PAYLOAD_ATTRIBUTE_UIDBANDO = "uidBando";
+	public static final String PAYLOAD_ATTRIBUTE_FECHA = "fecha";
+	public static final String PAYLOAD_ATTRIBUTE_TITULO = "titulo";
 	public static final String PAYLOAD_ATTRIBUTE_UIDTERRAT = "uidTerrat";
 	public static final String PAYLOAD_ATTRIBUTE_UIDIMAGEN = "uidImagen";
 	public static final String PAYLOAD_ATTRIBUTE_UIDUSER = "uidUser";

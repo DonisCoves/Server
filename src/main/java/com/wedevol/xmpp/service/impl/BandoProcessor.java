@@ -41,6 +41,8 @@ public class BandoProcessor implements PayloadProcessor {
 		// Adjuntamos datos que nos interesan
 		dataPayload = new HashMap<>();
 		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_UIDBANDO, uidBando);
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITULO, titulo);
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_FECHA, fecha);
 		messageId = Util.getUniqueMessageId();
 		message = new CcsOutMessage("/topics/Bando", messageId, dataPayload);
 		message.setNotificationPayload(notificacionPayload);
