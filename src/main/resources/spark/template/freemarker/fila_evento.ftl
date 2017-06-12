@@ -9,7 +9,7 @@
 		<input type="time" class="form-control" name="hora_inicial" value="${(evento.hora_inicial)!}" required>
 	</div> 
     <div class="col-md-1">
-		<input type="checkbox" class="form-control " value="${(evento.uidEvento)!}" name="eliminar" />
+		<input type="checkbox" class="form-control " value="${fila}" name="eliminar" />
 	</div>
 </div>	
     

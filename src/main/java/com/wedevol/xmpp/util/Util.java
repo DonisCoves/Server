@@ -86,7 +86,7 @@ public class Util {
 	
 
 	    public static Date pasarHoraADate(String hora) {
-	        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("k:mm");
+	        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("HH:mm");
 	        Date fecha = null;
 	        try {
 	            fecha = formatoDelTexto.parse(hora);

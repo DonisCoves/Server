@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -37,6 +38,7 @@ import com.wedevol.xmpp.bean.Evento;
 import com.wedevol.xmpp.bean.Fiestas;
 import com.wedevol.xmpp.bean.Imagen;
 import com.wedevol.xmpp.server.CcsClient;
+import com.wedevol.xmpp.util.ComparadorEvento;
 import com.wedevol.xmpp.util.Util;
 
 import spark.ModelAndView;
@@ -72,22 +74,19 @@ public class EntryPoint {
 		FirebaseApp.initializeApp(options);
 		tiempoInicialWeb = System.currentTimeMillis();
 		
-		CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
-
-		try {
-			ccsClient.connect();
-		} catch (XMPPException e) {
-			e.printStackTrace();
-		}
+//		CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
+//
+//		try {
+//			ccsClient.connect();
+//		} catch (XMPPException e) {
+//			e.printStackTrace();
+//		}
 		
-
-//				crearFiestasFireEjemplo();
 		recogidaDatos();
 
-		port(Integer.valueOf(System.getenv("PORT")));
-		//port(5000);
+		//port(Integer.valueOf(System.getenv("PORT")));
+		port(5000);
 		staticFileLocation("/public");
-		System.out.println("ACTUALIZADOs2323");
 		get("/", (request, response) -> {
 			return new ModelAndView(null, "index.ftl");
 		}, new FreeMarkerEngine());
@@ -178,11 +177,12 @@ public class EntryPoint {
 			Map<String, Object> attributes = new HashMap<>();
 			List<String> titulosDiasFiesta = new ArrayList<String>();
 			DiaFiesta diaFiesta;
-			Map<String, Evento> eventos = new HashMap<String, Evento>();
+			TreeMap<String, Evento> eventos = new TreeMap<String, Evento>();
 			Evento evento;
 			String tituloDiaFiesta = request.queryParams("dia_seleccionado");
 			String anyo = request.queryParams("anyo");
 			String uidDiaFiesta = tituloDiaFiesta.replace(" ", "");
+			
 
 			uidDiaFiesta = uidDiaFiesta + anyo;
 			//Si hay algun dia que se corresponde lo cargamos
@@ -190,47 +190,36 @@ public class EntryPoint {
 			String [] titulos = request.queryMap("titulo").values();
 			String [] descripciones = request.queryMap("descripcion").values();
 			String [] hora_iniciales = request.queryMap("hora_inicial").values();
-			String [] eliminaciones = null ;
+			String [] eliminaciones = null;
 			if (request.queryParams("eliminar")!=null)
 				eliminaciones = request.queryMap("eliminar").values();
 			for (int i=0;i<titulos.length;i++){
-				if (titulos[i]!="") {
-					if (eliminaciones!=null) {
-						if (!eliminarEventos(eliminaciones, i)){
-							evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+(i+1),titulos[i],descripciones[i],hora_iniciales[i],null);
-							eventos.put(evento.getUidEvento(),evento);
-						}
-					}
-					else {
-						evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+(i+1),titulos[i],descripciones[i],hora_iniciales[i],null);
+				if (eliminaciones!=null){
+					if (!eliminarEventos(eliminaciones, i)){
+						evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+i,titulos[i],descripciones[i],hora_iniciales[i],null);
 						eventos.put(evento.getUidEvento(),evento);
 					}
 				}
-			}
-			
-			///OJOOORRLL///
-			Iterator<String> itUidEventos = eventos.keySet().iterator();
-			Map<Date,String> eventosDate = new TreeMap<>();
-			while (itUidEventos.hasNext()){
-				String uidEvento = itUidEventos.next();
-				Evento ev = eventos.get(uidEvento);
-				String hora = ev.getHora_inicial();
-				eventosDate.put(Util.pasarHoraADate(hora),uidEvento);
-			}
-			
-			Iterator<Date> itUidEventos2 = eventosDate.keySet().iterator();
-			int i=0;
-			Util.mDataBaseKeysRef.child(uidDiaFiesta).setValue(null);
-			while (itUidEventos2.hasNext()){
-				Date key = itUidEventos2.next();
-				String uidEvento = eventosDate.get(key);
-				Util.mDataBaseKeysRef.child(uidDiaFiesta).child(uidEvento).setValue(i++);
-			}
-			
+				else {
+					evento = new Evento(hora_iniciales[i]+" "+"uidEvento"+i,titulos[i],descripciones[i],hora_iniciales[i],null);
+					eventos.put(evento.getUidEvento(),evento);
 
+				}
+			}
+			diaFiesta=new DiaFiesta(uidDiaFiesta,tituloDiaFiesta,eventos);
+//			if (eliminaciones!=null)
+//				diaFiesta = borrarEvento(diaFiesta,eliminaciones[0]);
+			Util.mDataBaseKeysRef.child(uidDiaFiesta).setValue(null);
+			
+			Iterator<String> itUidEventos = diaFiesta.getEventos().keySet().iterator();
+			int i=0;
+			while (itUidEventos.hasNext()){
+				String key = itUidEventos.next();
+				Util.mDataBaseKeysRef.child(uidDiaFiesta).child(key).setValue(i++);
+			}	
 
 			//Añadimos el uid (que es el dia seleccionado) dela metainformacion del dia para que este todo linkado
-			diaFiesta=new DiaFiesta(uidDiaFiesta,tituloDiaFiesta,eventos);
+			
 			diasFiestas.put(uidDiaFiesta, diaFiesta);
 			//Borramos todo el dia
 			Util.mDataBaseDiasFiestaRef.child(diaFiesta.getUidDiaFiesta()).setValue(null);
@@ -253,16 +242,39 @@ public class EntryPoint {
 		while(true){}
 	}
 
+	private static DiaFiesta borrarEvento(DiaFiesta diaFiesta, String uidEliminar) {
+		TreeMap <String,Evento> eventos;
+		Evento evento;
+		Iterator<String> it;
+		String uidEvento;
+		
+		eventos = diaFiesta.getEventos();
+		it = eventos.keySet().iterator();
+		while (it.hasNext()){
+			uidEvento = it.next();
+			if (uidEvento.equalsIgnoreCase(uidEliminar))
+				diaFiesta.getEventos().remove(uidEliminar);
+		}
+//		evento = eventos.get(uidEliminar);
+//		Set<String> keys = eventos.keySet();
+//		//eventos.remove(uidEliminar);
+//		diaFiesta.getEventos().remove(uidEliminar);
+		return diaFiesta;
+		
+	}
+
 	//Miramos si una fila tiene el check de eliminar para no insertarla
 	private static boolean eliminarEventos(String[] eliminaciones, int fila) {
-		boolean eliminar =false;
+		String filaEliminarStr;
+		int filaEliminar;
+		
 		for (int i=0;i<eliminaciones.length;i++){
-			String filaEliminarStr = eliminaciones[i].substring(15, eliminaciones[i].length());
-			int filaEliminar = Integer.valueOf(filaEliminarStr) - 1; 
+			filaEliminarStr = eliminaciones[i];
+			filaEliminar = Integer.valueOf(filaEliminarStr); 
 			if (filaEliminar==fila)
-				eliminar = true;
+				return true;
 		}
-		return eliminar;
+		return false;
 	}
 
 	private static void crearPaginasDias(String uidFiestas) {
@@ -542,36 +554,36 @@ public class EntryPoint {
 		DiaFiestaMeta diaFiestaMeta4=new DiaFiestaMeta("diaFiesta42015","dia Fiesta 12015");
 
 		//Creamos los dias de Fiestas con sus eventos y con sus imagenes
-		DiaFiesta diaFiesta1=new DiaFiesta(diaFiestaMeta1.getUidDiaFiesta(),"diaFiesta1 2015", eventos1);
-		DiaFiesta diaFiesta2=new DiaFiesta(diaFiestaMeta2.getUidDiaFiesta(), "diaFiesta2 2015", eventos2);
-		DiaFiesta diaFiesta3=new DiaFiesta(diaFiestaMeta3.getUidDiaFiesta(), "diaFiesta3 2015", eventos1);
-		DiaFiesta diaFiesta4=new DiaFiesta(diaFiestaMeta4.getUidDiaFiesta(), "diaFiesta4 2015", eventos2);
+//		DiaFiesta diaFiesta1=new DiaFiesta(diaFiestaMeta1.getUidDiaFiesta(),"diaFiesta1 2015", eventos1);
+//		DiaFiesta diaFiesta2=new DiaFiesta(diaFiestaMeta2.getUidDiaFiesta(), "diaFiesta2 2015", eventos2);
+//		DiaFiesta diaFiesta3=new DiaFiesta(diaFiestaMeta3.getUidDiaFiesta(), "diaFiesta3 2015", eventos1);
+//		DiaFiesta diaFiesta4=new DiaFiesta(diaFiestaMeta4.getUidDiaFiesta(), "diaFiesta4 2015", eventos2);
 
-		//Generamos la metainformacion de fiestas 
-		Map<String, DiaFiestaMeta> fiestas1Meta = new HashMap<String, DiaFiestaMeta>();
-		Map<String, DiaFiestaMeta> fiestas2Meta = new HashMap<String, DiaFiestaMeta>();
-		fiestas1Meta.put(diaFiestaMeta1.getUidDiaFiesta(), diaFiestaMeta1);
-		fiestas1Meta.put(diaFiestaMeta2.getUidDiaFiesta(), diaFiestaMeta2);
-		fiestas2Meta.put(diaFiestaMeta3.getUidDiaFiesta(), diaFiestaMeta3);
-		fiestas2Meta.put(diaFiestaMeta4.getUidDiaFiesta(), diaFiestaMeta4);
+//		//Generamos la metainformacion de fiestas 
+//		Map<String, DiaFiestaMeta> fiestas1Meta = new HashMap<String, DiaFiestaMeta>();
+//		Map<String, DiaFiestaMeta> fiestas2Meta = new HashMap<String, DiaFiestaMeta>();
+//		fiestas1Meta.put(diaFiestaMeta1.getUidDiaFiesta(), diaFiestaMeta1);
+//		fiestas1Meta.put(diaFiestaMeta2.getUidDiaFiesta(), diaFiestaMeta2);
+//		fiestas2Meta.put(diaFiestaMeta3.getUidDiaFiesta(), diaFiestaMeta3);
+//		fiestas2Meta.put(diaFiestaMeta4.getUidDiaFiesta(), diaFiestaMeta4);
+//
+//		//Generamos fiestas 
+//		Map<String, DiaFiesta> fiestas1 = new HashMap<String, DiaFiesta>();
+//		Map<String, DiaFiesta> fiestas2 = new HashMap<String, DiaFiesta>();
+//		fiestas1.put(diaFiesta1.getUidDiaFiesta(), diaFiesta1);
+//		fiestas1.put(diaFiesta2.getUidDiaFiesta(), diaFiesta2);
+//		fiestas2.put(diaFiesta3.getUidDiaFiesta(), diaFiesta3);
+//		fiestas2.put(diaFiesta4.getUidDiaFiesta(), diaFiesta4);
+//
+//		Fiestas fiestasx = new Fiestas("fiestas1","Fiestas titulo1","Fiestas1 Descripcion",fiestas1Meta);
+//		Fiestas fiestasy = new Fiestas("fiestas2","Fiestas titulo2","Fiestas2 Descripcion",fiestas2Meta);
 
-		//Generamos fiestas 
-		Map<String, DiaFiesta> fiestas1 = new HashMap<String, DiaFiesta>();
-		Map<String, DiaFiesta> fiestas2 = new HashMap<String, DiaFiesta>();
-		fiestas1.put(diaFiesta1.getUidDiaFiesta(), diaFiesta1);
-		fiestas1.put(diaFiesta2.getUidDiaFiesta(), diaFiesta2);
-		fiestas2.put(diaFiesta3.getUidDiaFiesta(), diaFiesta3);
-		fiestas2.put(diaFiesta4.getUidDiaFiesta(), diaFiesta4);
-
-		Fiestas fiestasx = new Fiestas("fiestas1","Fiestas titulo1","Fiestas1 Descripcion",fiestas1Meta);
-		Fiestas fiestasy = new Fiestas("fiestas2","Fiestas titulo2","Fiestas2 Descripcion",fiestas2Meta);
-
-		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta1.getUidDiaFiesta()).setValue(diaFiesta1);
-		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta2.getUidDiaFiesta()).setValue(diaFiesta2);
-		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta3.getUidDiaFiesta()).setValue(diaFiesta3);
-		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta4.getUidDiaFiesta()).setValue(diaFiesta4);
-		Util.mDataBaseRootRef.child("Fiestas").child(fiestasx.getUidFiestas()).setValue(fiestasx);
-		Util.mDataBaseRootRef.child("Fiestas").child(fiestasy.getUidFiestas()).setValue(fiestasx);
+//		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta1.getUidDiaFiesta()).setValue(diaFiesta1);
+//		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta2.getUidDiaFiesta()).setValue(diaFiesta2);
+//		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta3.getUidDiaFiesta()).setValue(diaFiesta3);
+//		Util.mDataBaseRootRef.child("DiasFiestas").child(diaFiesta4.getUidDiaFiesta()).setValue(diaFiesta4);
+//		Util.mDataBaseRootRef.child("Fiestas").child(fiestasx.getUidFiestas()).setValue(fiestasx);
+//		Util.mDataBaseRootRef.child("Fiestas").child(fiestasy.getUidFiestas()).setValue(fiestasx);
 	}
 		
 }
