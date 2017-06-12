@@ -74,18 +74,18 @@ public class EntryPoint {
 		FirebaseApp.initializeApp(options);
 		tiempoInicialWeb = System.currentTimeMillis();
 		
-//		CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
-//
-//		try {
-//			ccsClient.connect();
-//		} catch (XMPPException e) {
-//			e.printStackTrace();
-//		}
+		CcsClient ccsClient = CcsClient.prepareClient(fcmProjectSenderId, fcmServerKey, true);
+
+		try {
+			ccsClient.connect();
+		} catch (XMPPException e) {
+			e.printStackTrace();
+		}
 		
 		recogidaDatos();
 
-		//port(Integer.valueOf(System.getenv("PORT")));
-		port(5000);
+		port(Integer.valueOf(System.getenv("PORT")));
+		//port(5000);
 		staticFileLocation("/public");
 		get("/", (request, response) -> {
 			return new ModelAndView(null, "index.ftl");
