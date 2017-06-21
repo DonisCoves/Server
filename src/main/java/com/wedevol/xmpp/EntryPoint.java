@@ -248,7 +248,7 @@ public class EntryPoint {
 		Iterator<String> it;
 		String uidEvento;
 		
-		eventos = diaFiesta.getEventos();
+		eventos = (TreeMap<String, Evento>) diaFiesta.getEventos();
 		it = eventos.keySet().iterator();
 		while (it.hasNext()){
 			uidEvento = it.next();

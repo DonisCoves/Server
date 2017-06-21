@@ -5,10 +5,11 @@ import java.util.TreeMap;
 
 import com.wedevol.xmpp.util.ComparadorEvento;
 
+
 public  class DiaFiesta {
 	private String uidDiaFiesta;
 	private String titulo;
-	private TreeMap <String, Evento> eventos;
+	private Map <String, Evento> eventos;
 	public DiaFiesta(String uidDiaFiesta, String titulo, TreeMap<String, Evento> eventosNoOrdenados) {
 		ComparadorEvento comparador ;
 		
@@ -37,10 +38,10 @@ public  class DiaFiesta {
 	public void setUidDiaFiesta(String uidDiaFiesta) {
 		this.uidDiaFiesta = uidDiaFiesta;
 	}
-	public TreeMap<String, Evento> getEventos() {
+	public Map<String, Evento> getEventos() {
 		return eventos;
 	}
-	public void setEventos(TreeMap<String, Evento> eventos) {
+	public void setEventos(Map<String, Evento> eventos) {
 		this.eventos = eventos;
 	}
 
