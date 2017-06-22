@@ -32,9 +32,9 @@ public class TerratProcessor implements PayloadProcessor {
 		// Creamos la notificacion a enviar
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_TITLE, "Terrat añadido en:");
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_BODY, direccion);
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_action_terrat");//System.getenv("notificacion_sonido")
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_ICON, "ic_action_terrat");//
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_COLOR, "#FF4081");//new long[] {100, 250, 100, 500}
-		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, "good_morning");
+		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_SOUND, System.getenv("notificacion_sonido"));
 		notificacionPayload.put(Util.PAYLOAD_NOTIFICATION_CLICK_ACTION, Util.BACKEND_ACTION_TERRAT);
 		// Adjuntamos datos que nos interesan
 		dataPayload = new HashMap<>();
