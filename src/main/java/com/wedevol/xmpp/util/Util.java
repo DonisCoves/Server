@@ -27,16 +27,20 @@ public class Util {
 	public static final String BACKEND_ACTION_REGISTER = PACKAGE + ".REGISTER";
 	public static final String BACKEND_ACTION_ECHO = PACKAGE + ".ECHO";
 	public static final String BACKEND_ACTION_MESSAGE = PACKAGE + ".MESSAGE";
-    public static final String BACKEND_ACTION_BANDO = "BANDO";
-    public static final String BACKEND_ACTION_TERRAT = "TERRAT";
-    public static final String BACKEND_ACTION_IMAGEN = "IMAGEN";
+    public static final String BACKEND_ACTION_NOTIFICACION = "NOTIFICACION";
+    public static final String BACKEND_ACTION_PANORAMICA = "PANORAMICA";
+    public static final String BACKEND_ACTION_LIGA = "LIGA";
     public static final String BACKEND_ACTION_CAMBIO_GRUPO = "CAMBIO_GRUPO";
     public static final String BACKEND_ATTRIBUTE_MESSAGE = "message";
     public static final String BACKEND_ATTRIBUTE_TITULO = "titulo";
     
     public static final String BACKEND_ATTRIBUTE_CABECERA = "cabecera";
     public static final String BACKEND_ATTRIBUTE_DIRECCION = "direccion";
-	public static final String BACKEND_ATTRIBUTE_FECHA = "fecha";
+    public static final String BACKEND_ATTRIBUTE_NOMBREUSER = "nombreUser";
+    public static final String BACKEND_ATTRIBUTE_UIDIMAGENLIGA = "uidImagenLiga";
+    public static final String BACKEND_ATTRIBUTE_TITULOJORNADA = "tituloJornada";
+    public static final String BACKEND_ATTRIBUTE_UIDJORNADA = "uidJornada";
+    public static final String BACKEND_ATTRIBUTE_FECHA = "fecha";
 	public static final String BACKEND_ATTRIBUTE_GRUPONUEVO = "grupoNuevo";
 	public static final String BACKEND_ATTRIBUTE_GRUPOVIEJO = "grupoViejo";
 	public static final String BACKEND_ATTRIBUTE_UIDUSER = "uidUser";
@@ -46,10 +50,13 @@ public class Util {
 	// For the app common payload message attributes (android - xmpp server)
 	public static final Object PAYLOAD_ATTRIBUTE_RECIPIENT = null;
 	public static final Object PAYLOAD_ATTRIBUTE_ACTION = "action";
-	public static final String PAYLOAD_ATTRIBUTE_UIDBANDO = "uidBando";
+	public static final String PAYLOAD_ATTRIBUTE_UIDNOTIFICACION = "uidNotificacion";
+	public static final String PAYLOAD_ATTRIBUTE_UIDLIGA = "uidImagenLiga";
+	public static final String PAYLOAD_ATTRIBUTE_UIDJORNADA = "uidJornada";
 	public static final String PAYLOAD_ATTRIBUTE_FECHA = "fecha";
 	public static final String PAYLOAD_ATTRIBUTE_TITULO = "titulo";
-	public static final String PAYLOAD_ATTRIBUTE_UIDTERRAT = "uidTerrat";
+	public static final String PAYLOAD_ATTRIBUTE_UIDPANORAMICA = "uidPanoramica"; 
+	public static final String PAYLOAD_ATTRIBUTE_NOMBREUSER = "nombreUser";
 	public static final String PAYLOAD_ATTRIBUTE_UIDIMAGEN = "uidImagen";
 	public static final String PAYLOAD_ATTRIBUTE_UIDUSER = "uidUser";
 	public static final String PAYLOAD_ATTRIBUTE_NOMBRE = "nombre";

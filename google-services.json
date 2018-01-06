@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "369052423513",
+    "firebase_url": "https://clubesportiu-8143a.firebaseio.com",
+    "project_id": "clubesportiu-8143a",
+    "storage_bucket": "clubesportiu-8143a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369052423513:android:7442ed0af82015e6",
+        "android_client_info": {
+          "package_name": "serra.esportiu.club.clubesportiu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369052423513-bn47i6qr82fqm3hkmn2u7ac5c32cqb8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "serra.esportiu.club.clubesportiu",
+            "certificate_hash": "60d8b1e53c390974467e4110c8b4a67b0737c679"
+          }
+        },
+        {
+          "client_id": "369052423513-994t865qflsihcg44459scituvkmglvb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "serra.esportiu.club.clubesportiu",
+            "certificate_hash": "18f4360f0ec5e8bbf2ab39235c96cdeda030a8c9"
+          }
+        },
+        {
+          "client_id": "369052423513-rl699llao44r33m07e5en9qujoeso49k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRzxq-CoRXVxXLzU1NstwLJMKmeqezoLM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369052423513-rl699llao44r33m07e5en9qujoeso49k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
